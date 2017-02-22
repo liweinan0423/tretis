@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import './index.scss';
-import {createStore, combineReducers} from 'redux';
+import reducer from './reducers'
+import {createStore} from 'redux';
 import {Provider, connect} from 'react-redux';
 
 const initialState = {
@@ -16,51 +17,6 @@ const initialState = {
     }
 };
 
-const reducer = (state = {}, action) => {
-    switch (action.type) {
-        case 'MOVE_DOWN':
-            if (state.position.filledRows[state.position.filledRows.length - 1] >= state.board.height - 1) {
-                return state;
-            } else {
-                return Object.assign({}, state, {
-                    position: {
-                        filledRows: state.position.filledRows.map(i => i + 1),
-                        filledCells: state.position.filledCells
-                    }
-                });
-            }
-        case 'MOVE_RIGHT':
-            if (state.position.filledCells[state.position.filledCells.length - 1] >= state.board.width - 1) {
-                return state;
-            } else {
-                return Object.assign({}, state, {
-                    position: {
-                        filledRows: state.position.filledRows,
-                        filledCells: state.position.filledCells.map(i => i + 1)
-                    }
-                });
-            }
-        case 'MOVE_LEFT':
-            if (state.position.filledCells[0] === 0) {
-                return state;
-            } else {
-                return Object.assign({}, state, {
-                    position: {
-                        filledRows: state.position.filledRows,
-                        filledCells: state.position.filledCells.map(i => i - 1)
-                    }
-                });
-            }
-        default:
-            return state;
-    }
-};
-
-
-let reducers = combineReducers({
-    position: reducer
-});
-
 const store = createStore(reducer, initialState);
 
 const mapStateToProps = (state) => {
@@ -70,10 +26,6 @@ const mapStateToProps = (state) => {
         rows: state.board.height,
         columns: state.board.width
     }
-};
-
-const action = {
-    type: 'MOVE_LEFT',
 };
 
 const moveDownAction = () => {

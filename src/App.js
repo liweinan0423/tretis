@@ -9,9 +9,9 @@ class App extends Component {
                     {this.renderRows()}
                 </div>
                 <div className="controls">
-                    <button onClick={() => this.props.moveLeft()}>Left</button>
-                    <button onClick={() => this.props.moveDown()}>Down</button>
-                    <button onClick={() => this.props.moveRight()}>Right</button>
+                    <button className="btn-left" onClick={() => this.props.moveLeft()}>Left</button>
+                    <button className="btn-down" onClick={() => this.props.moveDown()}>Down</button>
+                    <button className="btn-right" onClick={() => this.props.moveRight()}>Right</button>
                 </div>
             </div>
         );
@@ -19,7 +19,7 @@ class App extends Component {
 
     renderRows() {
         const rows = [];
-        for (var i = 0; i < this.props.rows; i++) {
+        for (let i = 0; i < this.props.rows; i++) {
             rows.push(<div key={i} className="row">{this.renderCells(i)}</div>);
         }
         return rows;
@@ -27,7 +27,7 @@ class App extends Component {
 
     renderCells(rowNumber) {
         const columns = [];
-        for (var i = 0; i < this.props.columns; i++) {
+        for (let i = 0; i < this.props.columns; i++) {
             columns.push(<div key={i} className={`cell ${this.filled(rowNumber, i) ? 'cell--filled' : ''}`}/>);
         }
         return columns;
@@ -42,7 +42,10 @@ App.propTypes = {
     columns: React.PropTypes.number.isRequired,
     rows: React.PropTypes.number.isRequired,
     filledRows: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
-    filledCells: React.PropTypes.arrayOf(React.PropTypes.number).isRequired
+    filledCells: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
+    moveDown: React.PropTypes.func.isRequired,
+    moveLeft: React.PropTypes.func.isRequired,
+    moveRight: React.PropTypes.func.isRequired
 };
 
 export default App;
