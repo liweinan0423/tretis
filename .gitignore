@@ -8,6 +8,8 @@
 
 # production
 /build
+*.css
+*.css.map
 
 # misc
 .DS_Store
