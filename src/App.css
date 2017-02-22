@@ -1,0 +1,21 @@
+* {
+  box-sizing: border-box;
+}
+.row {
+  height: 16px;
+  padding: 1px;
+  margin-top: 1px;
+}
+
+.cell {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+  border: 1px solid;
+  margin-left: 1px;
+}
+
+.cell--filled {
+  background: black;
+}
