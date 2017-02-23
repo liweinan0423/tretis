@@ -186,10 +186,7 @@ describe('reducer', () => {
                     {row: 1, column: 9}
                 ]
             };
-            const action = {
-                type: 'MOVE_RIGHT'
-            };
-            let nextState = reducer(state, action);
+            let nextState = reducer(state, MoveRight);
             expect(nextState).toEqual(state);
         });
         it('should not move block to right if block hits settled cells on the right', () => {
@@ -215,10 +212,7 @@ describe('reducer', () => {
                     {row: 19, column: 5},
                 ]
             };
-            const action = {
-                type: 'MOVE_RIGHT'
-            };
-            const nextState = reducer(state, action);
+            const nextState = reducer(state, MoveRight);
             expect(nextState).toEqual(state);
         });
     });

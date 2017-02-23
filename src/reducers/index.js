@@ -1,7 +1,3 @@
-import MoveLeft from '../actions/MoveLeft';
-import MoveDown from '../actions/MoveDown';
-import MoveRight from '../actions/MoveRight';
-
 const initialPosition = [
     {row: 0, column: 4},
     {row: 0, column: 5},
@@ -11,14 +7,11 @@ const initialPosition = [
 
 export default (state = {}, action) => {
 
-
     switch (action.type) {
         case 'MOVE_DOWN':
-            return MoveDown.move(state);
         case 'MOVE_RIGHT':
-            return MoveRight.move(state);
         case 'MOVE_LEFT':
-            return MoveLeft.move(state);
+            return action.move(state);
         case 'NEXT_BLOCK':
             return Object.assign({}, state, {
                 filledCells: initialPosition
@@ -26,5 +19,4 @@ export default (state = {}, action) => {
         default:
             return state;
     }
-
 }
