@@ -37,14 +37,14 @@ const initialState2 = {
         {row: 17, column: 3}
     ],
     settledCells: [
-        {row: 16, column: 0},
-        {row: 16, column: 1},
-        {row: 17, column: 0},
-        {row: 17, column: 1},
-        {row: 18, column: 0},
-        {row: 18, column: 1},
-        {row: 19, column: 0},
-        {row: 19, column: 1},
+        {row: 16, column: 4},
+        {row: 16, column: 5},
+        {row: 17, column: 4},
+        {row: 17, column: 5},
+        {row: 18, column: 4},
+        {row: 18, column: 5},
+        {row: 19, column: 4},
+        {row: 19, column: 5},
     ]
 };
 
