@@ -42,6 +42,16 @@ export default (state = {}, action) => {
                     return {row: cell.row, column: cell.column - 1};
                 })
             });
+
+        case 'NEXT_BLOCK':
+            return Object.assign({}, state, {
+                filledCells: [
+                    {row: 0, column: 4},
+                    {row: 0, column: 5},
+                    {row: 1, column: 4},
+                    {row: 1, column: 5}
+                ]
+            });
         default:
             return state;
     }

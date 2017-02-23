@@ -15,8 +15,15 @@ const moveLeft = () => {
     };
 };
 
+const nextBlock = () => {
+    return {
+        type: 'NEXT_BLOCK'
+    };
+};
+
 export default {
     moveDown,
     moveRight,
-    moveLeft
+    moveLeft,
+    nextBlock
 }

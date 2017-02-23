@@ -13,6 +13,7 @@ export default class GameConsole extends React.Component {
                 <button className="btn-left" onClick={() => this.props.moveLeft()}>Left</button>
                 <button className="btn-down" onClick={() => this.props.moveDown()}>Down</button>
                 <button className="btn-right" onClick={() => this.props.moveRight()}>Right</button>
+                <button className="btn-next_block" onClick={() => this.props.nextBlock()}>__NEXT_BLOCK__</button>
             </div>
         );
     }

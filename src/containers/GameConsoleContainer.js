@@ -2,10 +2,9 @@ import {connect} from "react-redux";
 import actions from "../actions";
 import {bindActionCreators} from "redux";
 import GameConsole from "../components/GameConsole";
+import * as _ from "lodash";
 
-const mapStateToProps = (state) => {
-    return state;
-};
+const mapStateToProps = _.identity;
 
 
 const mapDispatchToProps = (dispatch) => {

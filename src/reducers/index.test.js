@@ -138,6 +138,19 @@ describe('reducer', () => {
             expect(nextState).toEqual(state);
         });
     });
+    describe('next block', () => {
+        it('next block should appear at the initial position', () => {
+            const state = {};
+            const action = {type: 'NEXT_BLOCK'};
+            const nextState = reducer(state, action);
+            expect(nextState.filledCells).toEqual([
+                {row: 0, column: 4},
+                {row: 0, column: 5},
+                {row: 1, column: 4},
+                {row: 1, column: 5}
+            ]);
+        });
+    });
     it('do nothing on unknown action', () => {
         const state = {};
         const action = {type: "UNKNOWN"};
