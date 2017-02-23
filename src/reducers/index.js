@@ -1,5 +1,12 @@
 import * as _ from "lodash";
 
+const initialPosition = [
+    {row: 0, column: 4},
+    {row: 0, column: 5},
+    {row: 1, column: 4},
+    {row: 1, column: 5}
+];
+
 export default (state = {}, action) => {
 
     const moveDown = cell => {
@@ -32,61 +39,38 @@ export default (state = {}, action) => {
             ).length > 0
     }
 
-    function blockHitsSettledCellUnderneath(state) {
-        return blockHitsSettledCell(state, moveDown)
-    }
-
-    function blockHitsSettledCellOnTheLeft(state) {
-
-        return blockHitsSettledCell(state, moveLeft)
-    }
-
-    function blockHitsSettledCellOnTheRight(state) {
-        return blockHitsSettledCell(state, moveRight);
-    }
-
     switch (action.type) {
         case 'MOVE_DOWN':
-            if (blockHitsBottom(state) || blockHitsSettledCellUnderneath(state)) {
+            if (blockHitsBottom(state) || blockHitsSettledCell(state, moveDown)) {
                 return Object.assign({}, state, {
                     filledCells: [],
                     settledCells: _.concat(state.settledCells, state.filledCells)
                 });
             }
             return Object.assign({}, state, {
-                filledCells: state.filledCells.map((cell) => {
-                    return {row: cell.row + 1, column: cell.column};
-                })
+                filledCells: state.filledCells.map(moveDown)
             });
         case 'MOVE_RIGHT':
-            if (blockHitsRightBorder(state) || blockHitsSettledCellOnTheRight(state)) {
+            if (blockHitsRightBorder(state) || blockHitsSettledCell(state, moveRight)) {
                 return state;
             }
             return Object.assign({}, state, {
-                filledCells: state.filledCells.map((cell) => {
-                    return {row: cell.row, column: cell.column + 1};
-                })
+                filledCells: state.filledCells.map(moveRight)
             });
         case 'MOVE_LEFT':
-            if (blockHitsLeftBorder(state) || blockHitsSettledCellOnTheLeft(state)) {
+            if (blockHitsLeftBorder(state) || blockHitsSettledCell(state, moveLeft)) {
                 return state;
             }
             return Object.assign({}, state, {
-                filledCells: state.filledCells.map((cell) => {
-                    return {row: cell.row, column: cell.column - 1};
-                })
+                filledCells: state.filledCells.map(moveLeft)
             });
 
         case 'NEXT_BLOCK':
             return Object.assign({}, state, {
-                filledCells: [
-                    {row: 0, column: 4},
-                    {row: 0, column: 5},
-                    {row: 1, column: 4},
-                    {row: 1, column: 5}
-                ]
+                filledCells: initialPosition
             });
         default:
             return state;
     }
+
 }
