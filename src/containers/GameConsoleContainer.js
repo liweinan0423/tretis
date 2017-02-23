@@ -4,7 +4,7 @@ import {bindActionCreators} from "redux";
 import GameConsole from "../components/GameConsole";
 import * as _ from "lodash";
 
-const mapStateToProps = _.identity;
+const mapStateToProps = _.identity
 
 
 const mapDispatchToProps = (dispatch) => {

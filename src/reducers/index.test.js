@@ -1,5 +1,8 @@
 import reducer from './';
 import * as _ from "lodash";
+import MoveLeft from "../actions/MoveLeft";
+import MoveDown from "../actions/MoveDown";
+import MoveRight from "../actions/MoveRight";
 
 describe('reducer', () => {
     describe('move down', () => {
@@ -26,10 +29,7 @@ describe('reducer', () => {
                     {row: 19, column: 1}
                 ]
             };
-            const action = {
-                type: 'MOVE_DOWN'
-            };
-            const nextState = reducer(state, action);
+            const nextState = reducer(state, MoveDown);
             expect(nextState.filledCells).toEqual([
                 {row: 15, column: 0},
                 {row: 15, column: 1},
@@ -56,11 +56,7 @@ describe('reducer', () => {
                     {row: 19, column: 9},
                 ]
             };
-            const action = {
-                type: 'MOVE_DOWN'
-            };
-
-            const nextState = reducer(state, action);
+            const nextState = reducer(state, MoveDown);
             expect(nextState.filledCells).toEqual([]);
             expect(nextState.settledCells).toEqual(_.concat(state.settledCells, state.filledCells));
         });
@@ -83,10 +79,7 @@ describe('reducer', () => {
                     {row: 19, column: 1},
                 ]
             };
-            const action = {
-                type: 'MOVE_DOWN'
-            };
-            const nextState = reducer(state, action);
+            const nextState = reducer(state, MoveDown);
             expect(nextState.filledCells).toEqual([]);
             expect(nextState.settledCells).toEqual(_.concat(state.settledCells, state.filledCells));
         });
@@ -106,10 +99,7 @@ describe('reducer', () => {
                     {row: 1, column: 5}
                 ]
             };
-            const action = {
-                type: 'MOVE_LEFT'
-            };
-            const nextState = reducer(state, action);
+            const nextState = reducer(state, MoveLeft);
             expect(nextState.filledCells).toEqual([
                 {row: 0, column: 3},
                 {row: 0, column: 4},
@@ -130,10 +120,7 @@ describe('reducer', () => {
                     {row: 1, column: 1}
                 ]
             };
-            const action = {
-                type: 'MOVE_LEFT'
-            };
-            let nextState = reducer(state, action);
+            let nextState = reducer(state, MoveLeft);
             expect(nextState).toEqual(state);
         });
         it('should not move block to left if block hits settled cells on the left', () => {
@@ -159,10 +146,7 @@ describe('reducer', () => {
                     {row: 19, column: 1},
                 ]
             };
-            const action = {
-                type: 'MOVE_LEFT'
-            };
-            const nextState = reducer(state, action);
+            const nextState = reducer(state, MoveLeft);
             expect(nextState).toEqual(state);
         });
 
@@ -181,10 +165,7 @@ describe('reducer', () => {
                     {row: 1, column: 1}
                 ]
             };
-            const action = {
-                type: 'MOVE_RIGHT'
-            };
-            const nextState = reducer(state, action);
+            const nextState = reducer(state, MoveRight);
             expect(nextState.filledCells).toEqual([
                 {row: 0, column: 1},
                 {row: 0, column: 2},

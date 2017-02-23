@@ -1,18 +1,15 @@
+import MoveLeft from "./MoveLeft";
+import MoveDown from "./MoveDown";
+import MoveRight from "./MoveRight";
 
 const moveDown = () => {
-    return {
-        type: 'MOVE_DOWN'
-    };
+    return MoveDown;
 };
 const moveRight = () => {
-    return {
-        type: 'MOVE_RIGHT'
-    };
+    return MoveRight;
 };
 const moveLeft = () => {
-    return {
-        type: 'MOVE_LEFT'
-    };
+    return MoveLeft;
 };
 
 const nextBlock = () => {
