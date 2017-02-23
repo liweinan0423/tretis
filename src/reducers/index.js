@@ -2,16 +2,26 @@ import * as _ from "lodash";
 
 export default (state = {}, action) => {
 
+    const moveDown = cell => {
+        return {row: cell.row + 1, column: cell.column};
+    };
+    const moveLeft = cell => {
+        return {row: cell.row, column: cell.column - 1};
+    };
+    const moveRight = cell => {
+        return {row: cell.row, column: cell.column + 1};
+    };
+
     function blockHitsBottom(state) {
-        return _.find(state.filledCells, (cell) => cell.row === state.board.height - 1);
+        return _.find(state.filledCells.map(moveDown), cell => cell.row > state.board.height - 1);
     }
 
     function blockHitsLeftBorder(state) {
-        return _.find(state.filledCells, (cell) => cell.column === 0);
+        return _.find(state.filledCells.map(moveLeft), cell => cell.column < 0);
     }
 
     function blockHitsRightBorder(state) {
-        return _.find(state.filledCells, (cell) => cell.column === state.board.width - 1);
+        return _.find(state.filledCells.map(moveRight), cell => cell.column > state.board.width - 1);
     }
 
     function blockHitsSettledCell(state, nextPosition) {
@@ -23,21 +33,16 @@ export default (state = {}, action) => {
     }
 
     function blockHitsSettledCellUnderneath(state) {
-        return blockHitsSettledCell(state, cell => {
-            return {row: cell.row + 1, column: cell.column};
-        })
+        return blockHitsSettledCell(state, moveDown)
     }
 
     function blockHitsSettledCellOnTheLeft(state) {
-        return blockHitsSettledCell(state, cell => {
-            return {row: cell.row, column: cell.column - 1};
-        })
+
+        return blockHitsSettledCell(state, moveLeft)
     }
 
     function blockHitsSettledCellOnTheRight(state) {
-        return blockHitsSettledCell(state, cell => {
-            return {row: cell.row, column: cell.column + 1};
-        })
+        return blockHitsSettledCell(state, moveRight);
     }
 
     switch (action.type) {
