@@ -14,34 +14,30 @@ export default (state = {}, action) => {
         return _.find(state.filledCells, (cell) => cell.column === state.board.width - 1);
     }
 
-    function blockHitsSettledCellUnderneath(state) {
+    function blockHitsSettledCell(state, nextPosition) {
         return _.intersectionWith(
                 state.settledCells,
-                state.filledCells.map(c => {
-                    return {row: c.row + 1, column: c.column}
-                }),
+                state.filledCells.map(nextPosition),
                 _.isEqual
             ).length > 0
+    }
+
+    function blockHitsSettledCellUnderneath(state) {
+        return blockHitsSettledCell(state, cell => {
+            return {row: cell.row + 1, column: cell.column};
+        })
     }
 
     function blockHitsSettledCellOnTheLeft(state) {
-        return _.intersectionWith(
-                state.settledCells,
-                state.filledCells.map(c => {
-                    return {row: c.row, column: c.column - 1}
-                }),
-                _.isEqual
-            ).length > 0
+        return blockHitsSettledCell(state, cell => {
+            return {row: cell.row, column: cell.column - 1};
+        })
     }
 
     function blockHitsSettledCellOnTheRight(state) {
-        return _.intersectionWith(
-                state.settledCells,
-                state.filledCells.map(c => {
-                    return {row: c.row, column: c.column + 1}
-                }),
-                _.isEqual
-            ).length > 0
+        return blockHitsSettledCell(state, cell => {
+            return {row: cell.row, column: cell.column + 1};
+        })
     }
 
     switch (action.type) {
