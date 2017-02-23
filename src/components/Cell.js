@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class extends React.Component {
+export default class Cell extends React.Component {
     static propTypes = {
         rowNumber: React.PropTypes.number.isRequired,
         columnNumber: React.PropTypes.number.isRequired,
