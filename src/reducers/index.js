@@ -6,11 +6,11 @@ export default (state = {}, action) => {
         return _.find(state.filledCells, (cell) => cell.row === state.board.height - 1);
     }
 
-    function blockHitsLeftBoarder(state) {
+    function blockHitsLeftBorder(state) {
         return _.find(state.filledCells, (cell) => cell.column === 0);
     }
 
-    function blockHitsRightBoarder(state) {
+    function blockHitsRightBorder(state) {
         return _.find(state.filledCells, (cell) => cell.column === state.board.width - 1);
     }
 
@@ -54,7 +54,7 @@ export default (state = {}, action) => {
                 })
             });
         case 'MOVE_RIGHT':
-            if (blockHitsRightBoarder(state) || blockHitsSettledCellOnTheRight(state)) {
+            if (blockHitsRightBorder(state) || blockHitsSettledCellOnTheRight(state)) {
                 return state;
             }
             return Object.assign({}, state, {
@@ -63,7 +63,7 @@ export default (state = {}, action) => {
                 })
             });
         case 'MOVE_LEFT':
-            if (blockHitsLeftBoarder(state) || blockHitsSettledCellOnTheLeft(state)) {
+            if (blockHitsLeftBorder(state) || blockHitsSettledCellOnTheLeft(state)) {
                 return state;
             }
             return Object.assign({}, state, {
