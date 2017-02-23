@@ -17,7 +17,10 @@ export default (state = {}, action) => {
     switch (action.type) {
         case 'MOVE_DOWN':
             if (blockHitsBottom(state)) {
-                return state;
+                return Object.assign({}, state, {
+                    filledCells: [],
+                    settledCells: _.concat(state.settledCells, state.filledCells)
+                });
             }
             return Object.assign({}, state, {
                 filledCells: state.filledCells.map((cell) => {

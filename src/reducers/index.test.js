@@ -1,4 +1,5 @@
 import reducer from './';
+import * as _ from "lodash";
 
 describe('reducer', () => {
     describe('move down', () => {
@@ -26,7 +27,7 @@ describe('reducer', () => {
                 {row: 2, column: 1}
             ]);
         });
-        it('should not move block down on MOVE_DOWN if block hists the bottom', () => {
+        it('should settle the cells when block hits bottom', () => {
             const state = {
                 board: {
                     width: 10,
@@ -37,6 +38,12 @@ describe('reducer', () => {
                     {row: 18, column: 1},
                     {row: 19, column: 0},
                     {row: 19, column: 1}
+                ],
+                settledCells: [
+                    {row: 18, column: 8},
+                    {row: 18, column: 9},
+                    {row: 19, column: 8},
+                    {row: 19, column: 9},
                 ]
             };
             const action = {
@@ -44,7 +51,8 @@ describe('reducer', () => {
             };
 
             const nextState = reducer(state, action);
-            expect(nextState).toEqual(state);
+            expect(nextState.filledCells).toEqual([]);
+            expect(nextState.settledCells).toEqual(_.concat(state.settledCells, state.filledCells));
         });
     });
 
