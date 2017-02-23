@@ -135,7 +135,37 @@ describe('reducer', () => {
             };
             let nextState = reducer(state, action);
             expect(nextState).toEqual(state);
-        })
+        });
+        it('should not move block to left if block hits settled cells on the left', () => {
+            const state = {
+                board: {
+                    width: 10,
+                    height: 20
+                },
+                filledCells: [
+                    {row: 16, column: 2},
+                    {row: 16, column: 3},
+                    {row: 17, column: 2},
+                    {row: 17, column: 3}
+                ],
+                settledCells: [
+                    {row: 16, column: 0},
+                    {row: 16, column: 1},
+                    {row: 17, column: 0},
+                    {row: 17, column: 1},
+                    {row: 18, column: 0},
+                    {row: 18, column: 1},
+                    {row: 19, column: 0},
+                    {row: 19, column: 1},
+                ]
+            };
+            const action = {
+                type: 'MOVE_LEFT'
+            };
+            const nextState = reducer(state, action);
+            expect(nextState).toEqual(state);
+        });
+
     });
     describe('move right', () => {
         it('should move block to right on MOVE_RIGHT action', () => {

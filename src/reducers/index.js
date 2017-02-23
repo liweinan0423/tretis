@@ -24,6 +24,16 @@ export default (state = {}, action) => {
             ).length > 0
     }
 
+    function blockHitsSettledCellOnTheLeft(state) {
+        return _.intersectionWith(
+                state.settledCells,
+                state.filledCells.map(c => {
+                    return {row: c.row, column: c.column - 1}
+                }),
+                _.isEqual
+            ).length > 0
+    }
+
     switch (action.type) {
         case 'MOVE_DOWN':
             if (blockHitsBottom(state) || blockHitsSettledCellUnderneath(state)) {
@@ -47,7 +57,7 @@ export default (state = {}, action) => {
                 })
             });
         case 'MOVE_LEFT':
-            if (blockHitsLeftBoarder(state)) {
+            if (blockHitsLeftBoarder(state) || blockHitsSettledCellOnTheLeft(state)) {
                 return state;
             }
             return Object.assign({}, state, {
