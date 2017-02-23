@@ -14,9 +14,19 @@ export default (state = {}, action) => {
         return _.find(state.filledCells, (cell) => cell.column === state.board.width - 1);
     }
 
+    function blockHitsSettledCellUnderneath(state) {
+        return _.intersectionWith(
+                state.settledCells,
+                state.filledCells.map(c => {
+                    return {row: c.row + 1, column: c.column}
+                }),
+                _.isEqual
+            ).length > 0
+    }
+
     switch (action.type) {
         case 'MOVE_DOWN':
-            if (blockHitsBottom(state)) {
+            if (blockHitsBottom(state) || blockHitsSettledCellUnderneath(state)) {
                 return Object.assign({}, state, {
                     filledCells: [],
                     settledCells: _.concat(state.settledCells, state.filledCells)

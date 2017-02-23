@@ -10,10 +10,20 @@ describe('reducer', () => {
                     height: 20
                 },
                 filledCells: [
-                    {row: 0, column: 0},
-                    {row: 0, column: 1},
-                    {row: 1, column: 0},
-                    {row: 1, column: 1}
+                    {row: 14, column: 0},
+                    {row: 14, column: 1},
+                    {row: 15, column: 0},
+                    {row: 15, column: 1}
+                ],
+                settledCells: [
+                    {row: 16, column: 2},
+                    {row: 16, column: 3},
+                    {row: 17, column: 2},
+                    {row: 17, column: 3},
+                    {row: 18, column: 0},
+                    {row: 18, column: 1},
+                    {row: 19, column: 0},
+                    {row: 19, column: 1}
                 ]
             };
             const action = {
@@ -21,10 +31,10 @@ describe('reducer', () => {
             };
             const nextState = reducer(state, action);
             expect(nextState.filledCells).toEqual([
-                {row: 1, column: 0},
-                {row: 1, column: 1},
-                {row: 2, column: 0},
-                {row: 2, column: 1}
+                {row: 15, column: 0},
+                {row: 15, column: 1},
+                {row: 16, column: 0},
+                {row: 16, column: 1}
             ]);
         });
         it('should settle the cells when block hits bottom', () => {
@@ -50,6 +60,32 @@ describe('reducer', () => {
                 type: 'MOVE_DOWN'
             };
 
+            const nextState = reducer(state, action);
+            expect(nextState.filledCells).toEqual([]);
+            expect(nextState.settledCells).toEqual(_.concat(state.settledCells, state.filledCells));
+        });
+        it('should settled the cells if block hits settled cell underneath', () => {
+            const state = {
+                board: {
+                    width: 10,
+                    height: 20
+                },
+                filledCells: [
+                    {row: 16, column: 0},
+                    {row: 16, column: 1},
+                    {row: 17, column: 0},
+                    {row: 17, column: 1}
+                ],
+                settledCells: [
+                    {row: 18, column: 0},
+                    {row: 18, column: 1},
+                    {row: 19, column: 0},
+                    {row: 19, column: 1},
+                ]
+            };
+            const action = {
+                type: 'MOVE_DOWN'
+            };
             const nextState = reducer(state, action);
             expect(nextState.filledCells).toEqual([]);
             expect(nextState.settledCells).toEqual(_.concat(state.settledCells, state.filledCells));

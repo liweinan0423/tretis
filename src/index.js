@@ -25,7 +25,30 @@ const initialState = {
     ]
 };
 
-const store = createStore(reducer, initialState);
+const initialState2 = {
+    board: {
+        width: 10,
+        height: 20
+    },
+    filledCells: [
+        {row: 14, column: 0},
+        {row: 14, column: 1},
+        {row: 15, column: 0},
+        {row: 15, column: 1}
+    ],
+    settledCells: [
+        {row: 16, column: 2},
+        {row: 16, column: 3},
+        {row: 17, column: 2},
+        {row: 17, column: 3},
+        {row: 18, column: 0},
+        {row: 18, column: 1},
+        {row: 19, column: 0},
+        {row: 19, column: 1}
+    ]
+};
+
+const store = createStore(reducer, initialState2);
 
 ReactDOM.render(
     <Provider store={store}>
