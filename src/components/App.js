@@ -1,5 +1,8 @@
 import React, {Component} from "react";
+import Cell from './Cell';
 import "./App.css";
+import _ from "lodash";
+
 
 class App extends Component {
     render() {
@@ -26,26 +29,42 @@ class App extends Component {
     }
 
     renderCells(rowNumber) {
-        const columns = [];
-        for (let i = 0; i < this.props.columns; i++) {
-            columns.push(<div key={i} className={`cell ${this.filled(rowNumber, i) ? 'cell--filled' : ''}`}/>);
+        const cells = [];
+        for (let columnNumber = 0; columnNumber < this.props.columns; columnNumber++) {
+            cells.push(
+                <Cell key={columnNumber}
+                      rowNumber={rowNumber} columnNumber={columnNumber}
+                      filled={this.isCellFilled(rowNumber, columnNumber)}
+                      settled={this.isCellSettled(rowNumber, columnNumber)}/>
+            );
         }
-        return columns;
+        return cells;
     }
 
-    filled(rowNumber, cellNumber) {
-        return this.props.filledRows.indexOf(rowNumber) !== -1 && this.props.filledCells.indexOf(cellNumber) !== -1
+
+    isCellSettled(rowNumber, columnNumber) {
+        return !!_.find(this.props.settledCells, (cell) => cell.row === rowNumber && cell.column === columnNumber);
+    }
+
+    isCellFilled(rowNumber, columnNumber) {
+        return !!_.find(this.props.filledCells, (cell) => cell.row === rowNumber && cell.column === columnNumber);
     }
 }
 
 App.propTypes = {
     columns: React.PropTypes.number.isRequired,
     rows: React.PropTypes.number.isRequired,
-    filledRows: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
-    filledCells: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
     moveDown: React.PropTypes.func.isRequired,
     moveLeft: React.PropTypes.func.isRequired,
-    moveRight: React.PropTypes.func.isRequired
+    moveRight: React.PropTypes.func.isRequired,
+    filledCells: React.PropTypes.arrayOf(React.PropTypes.shape({
+        row: React.PropTypes.number.isRequired,
+        column: React.PropTypes.number.isRequired
+    })),
+    settledCells: React.PropTypes.arrayOf(React.PropTypes.shape({
+        row: React.PropTypes.number.isRequired,
+        column: React.PropTypes.number.isRequired
+    }))
 };
 
 export default App;

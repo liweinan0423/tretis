@@ -5,8 +5,8 @@ import {bindActionCreators} from "redux";
 
 const mapStateToProps = (state) => {
     return {
-        filledRows: state.position.filledRows,
-        filledCells: state.position.filledCells,
+        filledCells: state.filledCells,
+        settledCells: state.settledCells,
         rows: state.board.height,
         columns: state.board.width
     }

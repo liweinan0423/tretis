@@ -8,17 +8,23 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                position: {
-                    filledRows: [0, 1],
-                    filledCells: [0, 1]
-                }
+                filledCells: [
+                    {row: 0, column: 0},
+                    {row: 0, column: 1},
+                    {row: 1, column: 0},
+                    {row: 1, column: 1}
+                ]
             };
             const action = {
                 type: 'MOVE_DOWN'
             };
             const nextState = reducer(state, action);
-            expect(nextState.position.filledRows).toEqual([1, 2]);
-            expect(nextState.position.filledCells).toEqual(state.position.filledCells);
+            expect(nextState.filledCells).toEqual([
+                {row: 1, column: 0},
+                {row: 1, column: 1},
+                {row: 2, column: 0},
+                {row: 2, column: 1}
+            ]);
         });
         it('should not move block down on MOVE_DOWN if block hists the bottom', () => {
             const state = {
@@ -26,10 +32,12 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                position: {
-                    filledRows: [18, 19],
-                    filledCells: [0, 1]
-                }
+                filledCells: [
+                    {row: 18, column: 0},
+                    {row: 18, column: 1},
+                    {row: 19, column: 0},
+                    {row: 19, column: 1}
+                ]
             };
             const action = {
                 type: 'MOVE_DOWN'
@@ -47,17 +55,23 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                position: {
-                    filledRows: [0, 1],
-                    filledCells: [4, 5]
-                }
+                filledCells: [
+                    {row: 0, column: 4},
+                    {row: 0, column: 5},
+                    {row: 1, column: 4},
+                    {row: 1, column: 5}
+                ]
             };
             const action = {
                 type: 'MOVE_LEFT'
             };
             const nextState = reducer(state, action);
-            expect(nextState.position.filledRows).toEqual(state.position.filledRows);
-            expect(nextState.position.filledCells).toEqual([3, 4]);
+            expect(nextState.filledCells).toEqual([
+                {row: 0, column: 3},
+                {row: 0, column: 4},
+                {row: 1, column: 3},
+                {row: 1, column: 4}
+            ]);
         });
         it('should not move block to left if block hists left border', () => {
             const state = {
@@ -65,10 +79,12 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                position: {
-                    filledRows: [0, 1],
-                    filledCells: [0, 1]
-                }
+                filledCells: [
+                    {row: 0, column: 0},
+                    {row: 0, column: 1},
+                    {row: 1, column: 0},
+                    {row: 1, column: 1}
+                ]
             };
             const action = {
                 type: 'MOVE_LEFT'
@@ -84,17 +100,23 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                position: {
-                    filledRows: [0, 1],
-                    filledCells: [0, 1]
-                }
+                filledCells: [
+                    {row: 0, column: 0},
+                    {row: 0, column: 1},
+                    {row: 1, column: 0},
+                    {row: 1, column: 1}
+                ]
             };
             const action = {
                 type: 'MOVE_RIGHT'
             };
             const nextState = reducer(state, action);
-            expect(nextState.position.filledRows).toEqual(state.position.filledRows);
-            expect(nextState.position.filledCells).toEqual([1, 2]);
+            expect(nextState.filledCells).toEqual([
+                {row: 0, column: 1},
+                {row: 0, column: 2},
+                {row: 1, column: 1},
+                {row: 1, column: 2}
+            ]);
         });
         it('should not move block to right if block hists right border', () => {
             const state = {
@@ -102,17 +124,19 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                position: {
-                    filledRows: [0, 1],
-                    filledCells: [8, 9]
-                }
+                filledCells: [
+                    {row: 0, column: 8},
+                    {row: 0, column: 9},
+                    {row: 1, column: 8},
+                    {row: 1, column: 9}
+                ]
             };
             const action = {
                 type: 'MOVE_RIGHT'
             };
             let nextState = reducer(state, action);
             expect(nextState).toEqual(state);
-        })
+        });
     });
     it('do nothing on unknown action', () => {
         const state = {};

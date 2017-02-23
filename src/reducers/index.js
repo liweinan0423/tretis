@@ -1,38 +1,47 @@
+import * as _ from "lodash";
+
 export default (state = {}, action) => {
+
+    function blockHitsBottom(state) {
+        return _.find(state.filledCells, (cell) => cell.row === state.board.height - 1);
+    }
+
+    function blockHitsLeftBoarder(state) {
+        return _.find(state.filledCells, (cell) => cell.column === 0);
+    }
+
+    function blockHitsRightBoarder(state) {
+        return _.find(state.filledCells, (cell) => cell.column === state.board.width - 1);
+    }
+
     switch (action.type) {
         case 'MOVE_DOWN':
-            if (state.position.filledRows[state.position.filledRows.length - 1] >= state.board.height - 1) {
+            if (blockHitsBottom(state)) {
                 return state;
-            } else {
-                return Object.assign({}, state, {
-                    position: {
-                        filledRows: state.position.filledRows.map(i => i + 1),
-                        filledCells: state.position.filledCells
-                    }
-                });
             }
+            return Object.assign({}, state, {
+                filledCells: state.filledCells.map((cell) => {
+                    return {row: cell.row + 1, column: cell.column};
+                })
+            });
         case 'MOVE_RIGHT':
-            if (state.position.filledCells[state.position.filledCells.length - 1] >= state.board.width - 1) {
+            if (blockHitsRightBoarder(state)) {
                 return state;
-            } else {
-                return Object.assign({}, state, {
-                    position: {
-                        filledRows: state.position.filledRows,
-                        filledCells: state.position.filledCells.map(i => i + 1)
-                    }
-                });
             }
+            return Object.assign({}, state, {
+                filledCells: state.filledCells.map((cell) => {
+                    return {row: cell.row, column: cell.column + 1};
+                })
+            });
         case 'MOVE_LEFT':
-            if (state.position.filledCells[0] === 0) {
+            if (blockHitsLeftBoarder(state)) {
                 return state;
-            } else {
-                return Object.assign({}, state, {
-                    position: {
-                        filledRows: state.position.filledRows,
-                        filledCells: state.position.filledCells.map(i => i - 1)
-                    }
-                });
             }
+            return Object.assign({}, state, {
+                filledCells: state.filledCells.map((cell) => {
+                    return {row: cell.row, column: cell.column - 1};
+                })
+            });
         default:
             return state;
     }

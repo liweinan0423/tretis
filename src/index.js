@@ -11,10 +11,18 @@ const initialState = {
         width: 10,
         height: 20
     },
-    position: {
-        filledRows: [0, 1],
-        filledCells: [4, 5]
-    }
+    filledCells: [
+        {row: 0, column: 0},
+        {row: 0, column: 1},
+        {row: 1, column: 0},
+        {row: 1, column: 1},
+    ],
+    settledCells: [
+        { row: 19, column: 0},
+        { row: 19, column: 1},
+        { row: 18, column: 0},
+        { row: 18, column: 1}
+    ]
 };
 
 const store = createStore(reducer, initialState);
