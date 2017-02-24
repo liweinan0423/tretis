@@ -1,18 +1,36 @@
 import * as _ from "lodash";
+import {hitsRightBorder_square, activeCells_square} from "../blocks/Square";
+import {hitsRightBorder_stick, activeCells_stick} from "../blocks/Stick";
 
-const moveRight = cell => {
-    return {row: cell.row, column: cell.column + 1};
+const moveRight = position => {
+    return {row: position.row, column: position.column + 1};
 };
 
-
 function blockHitsRightBorder(state) {
-    return _.find(state.filledCells.map(moveRight), cell => cell.column > state.board.width - 1);
+    switch (state.activeBlock.type) {
+        case 'square':
+            return hitsRightBorder_square(state);
+        case 'stick':
+            return hitsRightBorder_stick(state);
+        default:
+            return false;
+
+    }
 }
 
 function blockHitsSettledCell(state, nextPosition) {
+    let activeCells;
+    switch (state.activeBlock.type) {
+        case 'square':
+            activeCells = activeCells_square(state.activeBlock);
+            break;
+        case 'stick':
+            activeCells = activeCells_stick(state.activeBlock);
+            break;
+    }
     return _.intersectionWith(
             state.settledCells,
-            state.filledCells.map(nextPosition),
+            activeCells.map(nextPosition),
             _.isEqual
         ).length > 0
 }
@@ -20,12 +38,23 @@ function blockHitsSettledCell(state, nextPosition) {
 const MoveRight = {
     type: "MOVE_RIGHT",
     move: state => {
-        if (blockHitsRightBorder(state) || blockHitsSettledCell(state, moveRight)) {
+        if (!(state.activeBlock && state.activeBlock.position)) {
             return state;
+        } else {
+            if (blockHitsRightBorder(state) || blockHitsSettledCell(state, moveRight)) {
+                return state;
+            } else {
+                return Object.assign({}, state, {
+                    activeBlock: {
+                        type: state.activeBlock.type,
+                        position: {
+                            row: state.activeBlock.position.row,
+                            column: state.activeBlock.position.column + 1
+                        }
+                    }
+                });
+            }
         }
-        return Object.assign({}, state, {
-            filledCells: state.filledCells.map(moveRight)
-        });
     }
 };
 

@@ -12,12 +12,13 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                filledCells: [
-                    {row: 14, column: 0},
-                    {row: 14, column: 1},
-                    {row: 15, column: 0},
-                    {row: 15, column: 1}
-                ],
+                activeBlock: {
+                    type: 'square',
+                    position: {
+                        row: 0,
+                        column: 0
+                    }
+                },
                 settledCells: [
                     {row: 16, column: 2},
                     {row: 16, column: 3},
@@ -30,12 +31,13 @@ describe('reducer', () => {
                 ]
             };
             const nextState = reducer(state, MoveDown);
-            expect(nextState.filledCells).toEqual([
-                {row: 15, column: 0},
-                {row: 15, column: 1},
-                {row: 16, column: 0},
-                {row: 16, column: 1}
-            ]);
+            expect(nextState.activeBlock).toEqual({
+                type: state.activeBlock.type,
+                position: {
+                    row: state.activeBlock.position.row + 1,
+                    column: state.activeBlock.position.column
+                }
+            });
         });
         it('should settle the cells when block hits bottom', () => {
             const state = {
@@ -43,12 +45,13 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                filledCells: [
-                    {row: 18, column: 0},
-                    {row: 18, column: 1},
-                    {row: 19, column: 0},
-                    {row: 19, column: 1}
-                ],
+                activeBlock: {
+                    type: 'square',
+                    position: {
+                        row: 18,
+                        column: 0
+                    }
+                },
                 settledCells: [
                     {row: 18, column: 8},
                     {row: 18, column: 9},
@@ -57,8 +60,30 @@ describe('reducer', () => {
                 ]
             };
             const nextState = reducer(state, MoveDown);
-            expect(nextState.filledCells).toEqual([]);
-            expect(nextState.settledCells).toEqual(_.concat(state.settledCells, state.filledCells));
+            expect(nextState.activeBlock).toEqual({});
+            expect(nextState.settledCells)
+                .toEqual(
+                    expect.arrayContaining(
+                        _.concat(state.settledCells, [
+                            {
+                                row: state.activeBlock.position.row,
+                                column: state.activeBlock.position.column
+                            },
+                            {
+                                row: state.activeBlock.position.row + 1,
+                                column: state.activeBlock.position.column
+                            },
+                            {
+                                row: state.activeBlock.position.row,
+                                column: state.activeBlock.position.column + 1
+                            },
+                            {
+                                row: state.activeBlock.position.row + 1,
+                                column: state.activeBlock.position.column + 1
+                            },
+                        ])
+                    )
+                );
         });
         it('should settled the cells if block hits settled cell underneath', () => {
             const state = {
@@ -66,12 +91,13 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                filledCells: [
-                    {row: 16, column: 0},
-                    {row: 16, column: 1},
-                    {row: 17, column: 0},
-                    {row: 17, column: 1}
-                ],
+                activeBlock: {
+                    type: 'square',
+                    position: {
+                        row: 16,
+                        column: 0
+                    }
+                },
                 settledCells: [
                     {row: 18, column: 0},
                     {row: 18, column: 1},
@@ -80,8 +106,30 @@ describe('reducer', () => {
                 ]
             };
             const nextState = reducer(state, MoveDown);
-            expect(nextState.filledCells).toEqual([]);
-            expect(nextState.settledCells).toEqual(_.concat(state.settledCells, state.filledCells));
+            expect(nextState.activeBlock).toEqual({});
+            expect(nextState.settledCells)
+                .toEqual(
+                    expect.arrayContaining(
+                        _.concat(state.settledCells, [
+                            {
+                                row: state.activeBlock.position.row,
+                                column: state.activeBlock.position.column
+                            },
+                            {
+                                row: state.activeBlock.position.row + 1,
+                                column: state.activeBlock.position.column
+                            },
+                            {
+                                row: state.activeBlock.position.row,
+                                column: state.activeBlock.position.column + 1
+                            },
+                            {
+                                row: state.activeBlock.position.row + 1,
+                                column: state.activeBlock.position.column + 1
+                            },
+                        ])
+                    )
+                );
         });
     });
 
@@ -92,20 +140,22 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                filledCells: [
-                    {row: 0, column: 4},
-                    {row: 0, column: 5},
-                    {row: 1, column: 4},
-                    {row: 1, column: 5}
-                ]
+                activeBlock: {
+                    type: 'square',
+                    position: {
+                        row: 0,
+                        column: 2
+                    }
+                }
             };
             const nextState = reducer(state, MoveLeft);
-            expect(nextState.filledCells).toEqual([
-                {row: 0, column: 3},
-                {row: 0, column: 4},
-                {row: 1, column: 3},
-                {row: 1, column: 4}
-            ]);
+            expect(nextState.activeBlock).toEqual({
+                type: 'square',
+                position: {
+                    row: 0,
+                    column: 1
+                }
+            });
         });
         it('should not move block to left if block hists left border', () => {
             const state = {
@@ -113,12 +163,13 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                filledCells: [
-                    {row: 0, column: 0},
-                    {row: 0, column: 1},
-                    {row: 1, column: 0},
-                    {row: 1, column: 1}
-                ]
+                activeBlock: {
+                    type: 'square',
+                    position: {
+                        row: 0,
+                        column: 0
+                    }
+                }
             };
             let nextState = reducer(state, MoveLeft);
             expect(nextState).toEqual(state);
@@ -129,12 +180,13 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                filledCells: [
-                    {row: 16, column: 2},
-                    {row: 16, column: 3},
-                    {row: 17, column: 2},
-                    {row: 17, column: 3}
-                ],
+                activeBlock: {
+                    type: 'square',
+                    position: {
+                        row: 16,
+                        column: 2
+                    }
+                },
                 settledCells: [
                     {row: 16, column: 0},
                     {row: 16, column: 1},
@@ -158,20 +210,22 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                filledCells: [
-                    {row: 0, column: 0},
-                    {row: 0, column: 1},
-                    {row: 1, column: 0},
-                    {row: 1, column: 1}
-                ]
+                activeBlock: {
+                    type: 'square',
+                    position: {
+                        row: 0,
+                        column: 0
+                    }
+                }
             };
             const nextState = reducer(state, MoveRight);
-            expect(nextState.filledCells).toEqual([
-                {row: 0, column: 1},
-                {row: 0, column: 2},
-                {row: 1, column: 1},
-                {row: 1, column: 2}
-            ]);
+            expect(nextState.activeBlock).toEqual({
+                type: 'square',
+                position: {
+                    row: 0,
+                    column: 1
+                }
+            });
         });
         it('should not move block to right if block hists right border', () => {
             const state = {
@@ -179,12 +233,13 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                filledCells: [
-                    {row: 0, column: 8},
-                    {row: 0, column: 9},
-                    {row: 1, column: 8},
-                    {row: 1, column: 9}
-                ]
+                activeBlock: {
+                    type: 'square',
+                    position: {
+                        row: 0,
+                        column: 8
+                    }
+                }
             };
             let nextState = reducer(state, MoveRight);
             expect(nextState).toEqual(state);
@@ -195,12 +250,13 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                filledCells: [
-                    {row: 16, column: 2},
-                    {row: 16, column: 3},
-                    {row: 17, column: 2},
-                    {row: 17, column: 3}
-                ],
+                activeBlock: {
+                    type: 'square',
+                    position: {
+                        row: 16,
+                        column: 2
+                    }
+                },
                 settledCells: [
                     {row: 16, column: 4},
                     {row: 16, column: 5},
@@ -221,12 +277,13 @@ describe('reducer', () => {
             const state = {};
             const action = {type: 'NEXT_BLOCK'};
             const nextState = reducer(state, action);
-            expect(nextState.filledCells).toEqual([
-                {row: 0, column: 4},
-                {row: 0, column: 5},
-                {row: 1, column: 4},
-                {row: 1, column: 5}
-            ]);
+            expect(nextState.activeBlock).toEqual({
+                type: 'stick',
+                position: {
+                    row: 0,
+                    column: 4
+                }
+            });
         });
     });
     it('do nothing on unknown action', () => {

@@ -3,7 +3,7 @@ import GameBoard from "../components/GameBoard";
 
 const mapStateToProps = (state) => {
     return {
-        filledCells: state.filledCells,
+        activeBlock: state.activeBlock,
         settledCells: state.settledCells,
         rows: state.board.height,
         columns: state.board.width

@@ -11,12 +11,13 @@ const initialState = {
         width: 10,
         height: 20
     },
-    filledCells: [
-        {row: 0, column: 0},
-        {row: 0, column: 1},
-        {row: 1, column: 0},
-        {row: 1, column: 1},
-    ],
+    activeBlock: {
+        type: 'stick',
+        position: {
+            row: 0,
+            column: 0
+        }
+    },
     settledCells: [
         { row: 19, column: 0},
         { row: 19, column: 1},
@@ -25,30 +26,7 @@ const initialState = {
     ]
 };
 
-const initialState2 = {
-    board: {
-        width: 10,
-        height: 20
-    },
-    filledCells: [
-        {row: 16, column: 2},
-        {row: 16, column: 3},
-        {row: 17, column: 2},
-        {row: 17, column: 3}
-    ],
-    settledCells: [
-        {row: 16, column: 4},
-        {row: 16, column: 5},
-        {row: 17, column: 4},
-        {row: 17, column: 5},
-        {row: 18, column: 4},
-        {row: 18, column: 5},
-        {row: 19, column: 4},
-        {row: 19, column: 5},
-    ]
-};
-
-const store = createStore(reducer, initialState2);
+const store = createStore(reducer, initialState);
 
 ReactDOM.render(
     <Provider store={store}>
