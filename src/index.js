@@ -5,19 +5,14 @@ import './index.scss';
 import reducer from './reducers'
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
+import {Square} from "./blocks/Square";
 
 const initialState = {
     board: {
         width: 10,
         height: 20
     },
-    activeBlock: {
-        type: 'stick',
-        position: {
-            row: 0,
-            column: 0
-        }
-    },
+    activeBlock: new Square(0, 0),
     settledCells: [
         { row: 19, column: 0},
         { row: 19, column: 1},

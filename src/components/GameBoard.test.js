@@ -3,16 +3,17 @@ import {shallow} from "enzyme";
 import _ from 'lodash';
 import Cell from "./Cell";
 import GameBoard from "./GameBoard";
+import {Square} from "../blocks/Square";
 
 describe("Game Board", () => {
     let app;
     const settledCells = [{row: 19, column: 0}, {row: 19, column: 1}, {row: 18, column: 0}, {row: 18, column: 1}];
 
-    const activeBlock = {type: 'square', position: {row: 0, column: 0}};
+    const square = new Square(0, 0);
     beforeEach(() => {
         app = shallow(<GameBoard rows={20} columns={10}
                                  settledCells={settledCells}
-                                 activeBlock={activeBlock}/>);
+                                 activeBlock={square}/>);
     });
     it('should render cells', () => {
         expect(app.find('.row').length).toBe(20);
@@ -23,7 +24,7 @@ describe("Game Board", () => {
 
     it('should render active block', () => {
         app = shallow(<GameBoard rows={20} columns={10}
-                                 activeBlock={activeBlock}/>);
+                                 activeBlock={square}/>);
         const cells = app.find(Cell);
         const activeCells = [];
         cells.forEach((cell) => {
@@ -34,20 +35,20 @@ describe("Game Board", () => {
         expect(activeCells.length).toBe(4);
         const expectedActiveCells = [
             {
-                row: activeBlock.position.row,
-                column: activeBlock.position.column
+                row: square.position.row,
+                column: square.position.column
             },
             {
-                row: activeBlock.position.row + 1,
-                column: activeBlock.position.column
+                row: square.position.row + 1,
+                column: square.position.column
             },
             {
-                row: activeBlock.position.row,
-                column: activeBlock.position.column + 1
+                row: square.position.row,
+                column: square.position.column + 1
             },
             {
-                row: activeBlock.position.row + 1,
-                column: activeBlock.position.column + 1
+                row: square.position.row + 1,
+                column: square.position.column + 1
             }
         ];
         expect(activeCells.map(cell => {
