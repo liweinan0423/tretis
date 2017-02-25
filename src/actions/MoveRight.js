@@ -1,4 +1,4 @@
-import {blockHitsSettledCell} from "./commons";
+import {blockHitsSettledCell} from "../blocks/commons";
 
 const moveRight = position => {
     return {row: position.row, column: position.column + 1};
@@ -10,7 +10,7 @@ const MoveRight = {
         if (!(state.activeBlock && state.activeBlock.position)) {
             return state;
         } else {
-            if (state.activeBlock.hitsRightBorder(state.board) || blockHitsSettledCell(state, moveRight)) {
+            if (state.activeBlock.hitsRightBorder(state.board) || blockHitsSettledCell(moveRight, state.settledCells, state.activeBlock)) {
                 return state;
             } else {
                 return Object.assign({}, state, {
