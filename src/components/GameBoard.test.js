@@ -4,6 +4,7 @@ import _ from 'lodash';
 import Cell from "./Cell";
 import GameBoard from "./GameBoard";
 import {Square} from "../blocks/Square";
+import {Stick} from "../blocks/Stick";
 
 describe("Game Board", () => {
     let app;
@@ -60,7 +61,7 @@ describe("Game Board", () => {
     });
     it('should render stick block', () => {
         app = shallow(<GameBoard rows={20} columns={10}
-                                 activeBlock={{type: 'stick', position: {row: 0, column: 0}}} />);
+                                 activeBlock={new Stick(0, 0)} />);
         const cells = app.find(Cell);
         const activeCells = [];
         cells.forEach((cell) => {

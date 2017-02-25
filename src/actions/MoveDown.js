@@ -1,34 +1,13 @@
 import * as _ from "lodash";
-import {hitsBottom_square, activeCells_square} from "../blocks/Square";
-import {hitsBottom_stick, activeCells_stick} from "../blocks/Stick";
 
 const moveDown = position => {
     return {row: position.row + 1, column: position.column};
 };
 
-function blockHitsBottom(state) {
-    switch (state.activeBlock.type) {
-        case 'square':
-            return state.activeBlock.hitsBottom(state.board);
-        case 'stick':
-            return hitsBottom_stick(state);
-
-    }
-}
-
 function blockHitsSettledCell(state, nextPosition) {
-    let activeCells;
-    switch (state.activeBlock.type) {
-        case 'square':
-            activeCells = state.activeBlock.activeCells();
-            break;
-        case 'stick':
-            activeCells = activeCells_stick(state.activeBlock);
-            break;
-    }
     return _.intersectionWith(
             state.settledCells,
-            activeCells.map(nextPosition),
+            state.activeBlock.activeCells().map(nextPosition),
             _.isEqual
         ).length > 0
 }
@@ -39,19 +18,10 @@ const MoveDown = {
         if (!(state.activeBlock && state.activeBlock.position)) {
             return state;
         }
-        if (blockHitsBottom(state) || blockHitsSettledCell(state, moveDown)) {
-            let activeCells;
-            switch (state.activeBlock.type) {
-                case 'square':
-                    activeCells = state.activeBlock.activeCells();
-                    break;
-                case 'stick':
-                    activeCells = activeCells_stick(state.activeBlock);
-                    break;
-            }
+        if (state.activeBlock.hitsBottom(state.board) || blockHitsSettledCell(state, moveDown)) {
             return Object.assign({}, state, {
                 activeBlock: {},
-                settledCells: _.concat(state.settledCells, activeCells)
+                settledCells: _.concat(state.settledCells, state.activeBlock.activeCells())
             });
         } else {
             return Object.assign({}, state, {

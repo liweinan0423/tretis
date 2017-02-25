@@ -1,29 +1,13 @@
 import * as _ from "lodash";
-import {activeCells_stick} from "../blocks/Stick";
-
 
 const moveLeft = cell => {
     return {row: cell.row, column: cell.column - 1};
 };
 
-function blockHitsLeftBorder(state) {
-    return state.activeBlock.position.column - 1 < 0;
-}
-
-
 function blockHitsSettledCell(state, nextPosition) {
-    let activeCells;
-    switch(state.activeBlock.type) {
-        case 'square':
-            activeCells = state.activeBlock.activeCells();
-            break;
-        case 'stick':
-            activeCells = activeCells_stick(state.activeBlock);
-            break;
-    }
     return _.intersectionWith(
             state.settledCells,
-            activeCells.map(nextPosition),
+            state.activeBlock.activeCells().map(nextPosition),
             _.isEqual
         ).length > 0
 }
@@ -34,7 +18,7 @@ const MoveLeft = {
         if (!(state.activeBlock && state.activeBlock.position)) {
             return state;
         } else {
-            if (blockHitsLeftBorder(state) || blockHitsSettledCell(state, moveLeft)) {
+            if (state.activeBlock.hitsLeftBorder() || blockHitsSettledCell(state, moveLeft)) {
                 return state;
             } else {
                 return Object.assign({}, state, {

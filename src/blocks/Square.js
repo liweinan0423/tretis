@@ -1,25 +1,8 @@
-const activeCells_square = activeBlock => {
-    const activeCells = [];
-    activeCells.push({row: activeBlock.position.row, column: activeBlock.position.column});
-    activeCells.push({row: activeBlock.position.row + 1, column: activeBlock.position.column});
-    activeCells.push({row: activeBlock.position.row, column: activeBlock.position.column + 1});
-    activeCells.push({row: activeBlock.position.row + 1, column: activeBlock.position.column + 1});
-    return activeCells;
-};
-const hitsRightBorder_square = function (state) {
-    return state.activeBlock.position.column + 2 > state.board.width - 1;
-};
-const hitsBottom_square = function (state) {
-    return state.activeBlock.position.row + 2 > state.board.height - 1;
-};
-
 class Square {
 
     type = 'square';
 
-    position = {
-
-    };
+    position = {};
 
     constructor(row, column) {
         this.position.row = row;
@@ -27,33 +10,28 @@ class Square {
     }
 
     activeCells() {
-        return activeCells_square(this)
+        const activeCells = [];
+        activeCells.push({row: this.position.row, column: this.position.column});
+        activeCells.push({row: this.position.row + 1, column: this.position.column});
+        activeCells.push({row: this.position.row, column: this.position.column + 1});
+        activeCells.push({row: this.position.row + 1, column: this.position.column + 1});
+        return activeCells;
     }
 
     hitsRightBorder(board) {
-        return hitsRightBorder_square({
-            board,
-            activeBlock: {
-                type: Square.type,
-                position: this.position
-            }
-        })
+        return this.position.column + 2 > board.width - 1
     }
 
     hitsBottom(board) {
-        return hitsBottom_square({
-            board,
-            activeBlock: {
-                type: Square.type,
-                position: this.position
-            }
-        })
+        return this.position.row + 2 > board.height - 1;
     }
+
+    hitsLeftBorder() {
+        return this.position.column - 1 < 0;
+    }
+
 }
 
 module.exports = {
-    activeCells_square,
-    hitsBottom_square,
-    hitsRightBorder_square,
     Square
 };

@@ -1,25 +1,36 @@
+class Stick {
 
-const activeCells_stick = activeBlock => {
-    const activeCells = [];
-    activeCells.push({row: activeBlock.position.row, column: activeBlock.position.column});
-    activeCells.push({row: activeBlock.position.row + 1, column: activeBlock.position.column});
-    activeCells.push({row: activeBlock.position.row + 2, column: activeBlock.position.column});
-    activeCells.push({row: activeBlock.position.row + 3, column: activeBlock.position.column});
-    return activeCells;
+    type = 'stick';
 
-};
+    position = {};
 
-const hitsRightBorder_stick = function (state) {
-    return state.activeBlock.position.column + 1 > state.board.width - 1;
-};
+    constructor(row, column) {
+        this.position.row = row;
+        this.position.column = column
+    }
 
+    activeCells() {
+        const activeCells = [];
+        activeCells.push({row: this.position.row, column: this.position.column});
+        activeCells.push({row: this.position.row + 1, column: this.position.column});
+        activeCells.push({row: this.position.row + 2, column: this.position.column});
+        activeCells.push({row: this.position.row + 3, column: this.position.column});
+        return activeCells;
+    }
 
-var hitsBottom_stick = function (state) {
-    return state.activeBlock.position.row + 4 > state.board.height - 1;
-};
+    hitsRightBorder(board) {
+        return this.position.column + 1 > board.width - 1
+    }
+
+    hitsBottom(board) {
+        return this.position.row + 4 > board.height - 1;
+    }
+
+    hitsLeftBorder() {
+        return this.position.column - 1 < 0;
+    }
+}
 
 module.exports = {
-    activeCells_stick,
-    hitsRightBorder_stick,
-    hitsBottom_stick
+    Stick
 };

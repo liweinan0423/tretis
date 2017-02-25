@@ -57,18 +57,9 @@ export default class GameBoard extends React.Component {
     }
 
     isCellActive(rowNumber, columnNumber) {
-        const activeBlock = this.props.activeBlock;
-        if (!(activeBlock && activeBlock.position)) {
+        if (!(this.props.activeBlock && this.props.activeBlock.position)) {
             return false;
-        } else {
-            switch (activeBlock.type) {
-                case 'square':
-                    return !!_.find(activeBlock.activeCells(), cell => cell.row === rowNumber && cell.column == columnNumber);
-                case 'stick':
-                    return !!_.find(activeCells_stick(activeBlock), cell => cell.row === rowNumber && cell.column == columnNumber);
-                default:
-                    return false;
-            }
         }
+        return !!_.find(this.props.activeBlock.activeCells(), cell => cell.row === rowNumber && cell.column == columnNumber);
     }
 }
