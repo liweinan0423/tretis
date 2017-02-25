@@ -9,12 +9,11 @@ const moveRight = position => {
 function blockHitsRightBorder(state) {
     switch (state.activeBlock.type) {
         case 'square':
-            return hitsRightBorder_square(state);
+            return state.activeBlock.hitsRightBorder(state.board);
         case 'stick':
             return hitsRightBorder_stick(state);
         default:
             return false;
-
     }
 }
 
@@ -22,7 +21,7 @@ function blockHitsSettledCell(state, nextPosition) {
     let activeCells;
     switch (state.activeBlock.type) {
         case 'square':
-            activeCells = activeCells_square(state.activeBlock);
+            activeCells = state.activeBlock.activeCells();
             break;
         case 'stick':
             activeCells = activeCells_stick(state.activeBlock);

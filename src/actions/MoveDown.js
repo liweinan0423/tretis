@@ -9,7 +9,7 @@ const moveDown = position => {
 function blockHitsBottom(state) {
     switch (state.activeBlock.type) {
         case 'square':
-            return hitsBottom_square(state);
+            return state.activeBlock.hitsBottom(state.board);
         case 'stick':
             return hitsBottom_stick(state);
 
@@ -20,7 +20,7 @@ function blockHitsSettledCell(state, nextPosition) {
     let activeCells;
     switch (state.activeBlock.type) {
         case 'square':
-            activeCells = activeCells_square(state.activeBlock);
+            activeCells = state.activeBlock.activeCells();
             break;
         case 'stick':
             activeCells = activeCells_stick(state.activeBlock);
@@ -43,7 +43,7 @@ const MoveDown = {
             let activeCells;
             switch (state.activeBlock.type) {
                 case 'square':
-                    activeCells = activeCells_square(state.activeBlock);
+                    activeCells = state.activeBlock.activeCells();
                     break;
                 case 'stick':
                     activeCells = activeCells_stick(state.activeBlock);

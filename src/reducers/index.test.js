@@ -3,6 +3,7 @@ import * as _ from "lodash";
 import MoveLeft from "../actions/MoveLeft";
 import MoveDown from "../actions/MoveDown";
 import MoveRight from "../actions/MoveRight";
+import {Square} from "../blocks/Square";
 
 describe('reducer', () => {
     describe('move down', () => {
@@ -12,13 +13,7 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                activeBlock: {
-                    type: 'square',
-                    position: {
-                        row: 0,
-                        column: 0
-                    }
-                },
+                activeBlock: new Square(0, 0),
                 settledCells: [
                     {row: 16, column: 2},
                     {row: 16, column: 3},
@@ -45,19 +40,7 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                activeBlock: {
-                    type: 'square',
-                    position: {
-                        row: 18,
-                        column: 0
-                    }
-                },
-                settledCells: [
-                    {row: 18, column: 8},
-                    {row: 18, column: 9},
-                    {row: 19, column: 8},
-                    {row: 19, column: 9},
-                ]
+                activeBlock: new Square(18, 0)
             };
             const nextState = reducer(state, MoveDown);
             expect(nextState.activeBlock).toEqual({});
@@ -91,13 +74,7 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                activeBlock: {
-                    type: 'square',
-                    position: {
-                        row: 16,
-                        column: 0
-                    }
-                },
+                activeBlock: new Square(16, 0),
                 settledCells: [
                     {row: 18, column: 0},
                     {row: 18, column: 1},
@@ -140,13 +117,7 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                activeBlock: {
-                    type: 'square',
-                    position: {
-                        row: 0,
-                        column: 2
-                    }
-                }
+                activeBlock: new Square(0, 2)
             };
             const nextState = reducer(state, MoveLeft);
             expect(nextState.activeBlock).toEqual({
@@ -163,13 +134,7 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                activeBlock: {
-                    type: 'square',
-                    position: {
-                        row: 0,
-                        column: 0
-                    }
-                }
+                activeBlock: new Square(0, 0)
             };
             let nextState = reducer(state, MoveLeft);
             expect(nextState).toEqual(state);
@@ -180,13 +145,7 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                activeBlock: {
-                    type: 'square',
-                    position: {
-                        row: 16,
-                        column: 2
-                    }
-                },
+                activeBlock: new Square(16, 2),
                 settledCells: [
                     {row: 16, column: 0},
                     {row: 16, column: 1},
@@ -210,13 +169,7 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                activeBlock: {
-                    type: 'square',
-                    position: {
-                        row: 0,
-                        column: 0
-                    }
-                }
+                activeBlock: new Square(0, 0)
             };
             const nextState = reducer(state, MoveRight);
             expect(nextState.activeBlock).toEqual({
@@ -233,13 +186,7 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                activeBlock: {
-                    type: 'square',
-                    position: {
-                        row: 0,
-                        column: 8
-                    }
-                }
+                activeBlock: new Square(0, 8)
             };
             let nextState = reducer(state, MoveRight);
             expect(nextState).toEqual(state);
@@ -250,13 +197,7 @@ describe('reducer', () => {
                     width: 10,
                     height: 20
                 },
-                activeBlock: {
-                    type: 'square',
-                    position: {
-                        row: 16,
-                        column: 2
-                    }
-                },
+                activeBlock: new Square(16, 2),
                 settledCells: [
                     {row: 16, column: 4},
                     {row: 16, column: 5},
@@ -275,15 +216,9 @@ describe('reducer', () => {
     describe('next block', () => {
         it('next block should appear at the initial position', () => {
             const state = {};
-            const action = {type: 'NEXT_BLOCK'};
+            const action = {type: 'NEXT_BLOCK', blockType: 'square'};
             const nextState = reducer(state, action);
-            expect(nextState.activeBlock).toEqual({
-                type: 'stick',
-                position: {
-                    row: 0,
-                    column: 4
-                }
-            });
+            expect(nextState.activeBlock).toEqual(new Square(0, 4));
         });
     });
     it('do nothing on unknown action', () => {

@@ -1,5 +1,4 @@
 import * as _ from "lodash";
-import {activeCells_square} from "../blocks/Square";
 import {activeCells_stick} from "../blocks/Stick";
 
 
@@ -16,7 +15,7 @@ function blockHitsSettledCell(state, nextPosition) {
     let activeCells;
     switch(state.activeBlock.type) {
         case 'square':
-            activeCells = activeCells_square(state.activeBlock);
+            activeCells = state.activeBlock.activeCells();
             break;
         case 'stick':
             activeCells = activeCells_stick(state.activeBlock);

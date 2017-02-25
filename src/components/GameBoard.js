@@ -63,7 +63,7 @@ export default class GameBoard extends React.Component {
         } else {
             switch (activeBlock.type) {
                 case 'square':
-                    return !!_.find(activeCells_square(activeBlock), cell => cell.row === rowNumber && cell.column == columnNumber);
+                    return !!_.find(activeBlock.activeCells(), cell => cell.row === rowNumber && cell.column == columnNumber);
                 case 'stick':
                     return !!_.find(activeCells_stick(activeBlock), cell => cell.row === rowNumber && cell.column == columnNumber);
                 default:
