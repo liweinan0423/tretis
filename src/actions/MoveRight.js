@@ -1,16 +1,8 @@
-import * as _ from "lodash";
+import {blockHitsSettledCell} from "./commons";
 
 const moveRight = position => {
     return {row: position.row, column: position.column + 1};
 };
-
-function blockHitsSettledCell(state, nextPosition) {
-    return _.intersectionWith(
-            state.settledCells,
-            state.activeBlock.activeCells().map(nextPosition),
-            _.isEqual
-        ).length > 0
-}
 
 const MoveRight = {
     type: "MOVE_RIGHT",

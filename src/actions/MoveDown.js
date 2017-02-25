@@ -1,16 +1,9 @@
 import * as _ from "lodash";
+import {blockHitsSettledCell} from "./commons";
 
 const moveDown = position => {
     return {row: position.row + 1, column: position.column};
 };
-
-function blockHitsSettledCell(state, nextPosition) {
-    return _.intersectionWith(
-            state.settledCells,
-            state.activeBlock.activeCells().map(nextPosition),
-            _.isEqual
-        ).length > 0
-}
 
 const MoveDown = {
     type: "MOVE_DOWN",
